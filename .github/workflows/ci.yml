@@ -1,0 +1,50 @@
+name: ci.yml
+
+# build job : 테스트, 빌드 가능 여부 확인
+# deploy job : ASG 인스턴스 리프레시를 통한 배포 수행
+
+# develop (PR) : build job
+# main (PR) : build job
+# main (Push) : build + deploy job
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6-beta
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+          cache: gradle # 깃헙 캐시에서 의존성 라이브러리 가져옴 (빌드 속도 향상)
+
+      - name: Test
+        run: ./gradlew test
+
+      - name: Build
+        run: ./gradlew bootJar  # .jar 파일 생성 여부까지 확인
+
+      - name: Upload jar  # jar 파일을 다른 job에서 사용하기 위해 업로드 (이후 배포할 경우)
+        uses: actions/upload-artifact@v7
+        with:
+          name: jar
+          path: build/libs/*.jar  # 해당 경로에 jar파일 업로드
