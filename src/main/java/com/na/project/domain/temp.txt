@@ -1,0 +1,4 @@
+[임시 파일]
+Domain 패키지 구조
+
+domain 내부에 controller, service, repository, dto, entity 등 패키지 생성
