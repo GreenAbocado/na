@@ -17,7 +17,7 @@ public enum ErrorCode {
 	REQUEST_METHOD_INVALID(HttpStatus.METHOD_NOT_ALLOWED, "G004", "HTTP 메서드가 잘못되었습니다."),
 	REQUEST_MEDIA_INVALID(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "G005", "지원하지 않는 미디어 타입입니다."),
 
-	SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "G500", "서버 내부 오류입니다.");
+	SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "G500", "서버 내부 오류입니다."),
 
 	// 회원
 
@@ -27,6 +27,7 @@ public enum ErrorCode {
 
 	// ...
 
+	;
 	private final HttpStatus status;
 
 	// 에러 식별 코드. 도메인 접두사 + 번호 (예: 상품 P001, 회원 M001)
